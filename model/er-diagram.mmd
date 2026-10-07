@@ -1,0 +1,43 @@
+erDiagram
+    USER {
+        int user_id PK
+        string username
+        string email
+        int rank_id FK
+    }
+
+    RANK {
+        int rank_id PK
+        string name
+        int score_threshold
+    }
+
+    KATA {
+        int kata_id PK
+        string title
+        string description
+        int difficulty
+        int author_id FK
+    }
+
+    LANGUAGE {
+        int language_id PK
+        string name
+    }
+
+    ATTEMPT {
+        int attempt_id PK
+        int user_id FK
+        int kata_id FK
+        int language_id FK
+        datetime submitted_at
+        string status
+        string source_code
+    }
+
+    RANK ||--o{ USER : assigns
+    USER ||--o{ KATA : authors
+    KATA }o--o{ LANGUAGE : supports
+    USER ||--o{ ATTEMPT : makes
+    KATA ||--o{ ATTEMPT : receives
+    LANGUAGE ||--o{ ATTEMPT : uses
