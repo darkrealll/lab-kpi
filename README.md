@@ -1,4 +1,4 @@
-# ER-модель Codewars
+# Лабораторні Codewars: дані та вимоги
 
 ## Домен
 
@@ -8,9 +8,9 @@ kata, надсилати спроби різними мовами та отри�
 тестів. Користувачі можуть створювати kata, а одна kata може підтримувати
 кілька мов програмування.
 
-Цей репозиторій описує концептуальні дані платформи. Він навмисно не містить
-SQL DDL, ORM-відображень, індексів чи іншого фізичного проєктування бази
-даних.
+Цей репозиторій описує концептуальні дані платформи та вимоги до її
+взаємодій. Він навмисно не містить SQL DDL, ORM-відображень, індексів чи
+іншого фізичного проєктування бази даних.
 
 ## Структура репозиторію
 
@@ -20,6 +20,12 @@ SQL DDL, ORM-відображень, індексів чи іншого фізи
 - [`audit/discrepancies.md`](audit/discrepancies.md) — аудит узгодженості.
 - [`adr/0001-attempt-as-associative-entity.md`](adr/0001-attempt-as-associative-entity.md) — ключове рішення моделювання.
 - [`DEFENSE.md`](DEFENSE.md) — точка входу для рев'ю.
+- [`requirements.md`](requirements.md) — EARS-вимоги, user stories і Gherkin.
+- [`traceability.md`](traceability.md) — матриця вимога ↔ сценарій/UC.
+- [`model/use-case-diagram.puml`](model/use-case-diagram.puml) — Use Case-джерело.
+- [`model/use-case-diagram.svg`](model/use-case-diagram.svg) — рендер Use Case.
+- [`audit/requirements-discrepancies.md`](audit/requirements-discrepancies.md) — аудит лабораторної №2.
+- [`adr/0002-requirements-and-use-case-boundaries.md`](adr/0002-requirements-and-use-case-boundaries.md) — ADR лабораторної №2.
 
 ## Межі
 
@@ -27,5 +33,6 @@ SQL DDL, ORM-відображень, індексів чи іншого фізи
 надсилання розв'язків. Вона не охоплює обговорення, honor/badges, команди,
 підписки та внутрішню реалізацію запуску тестів.
 
-Перевірку прикладу зручно виконувати послідовно: від специфікації до Mermaid
-джерела, а потім до аудиту та пояснення рішення.
+Перевірку лабораторної №1 зручно виконувати від ER-специфікації до діаграми.
+Лабораторна №2 читається від [`spec.md`](spec.md) до вимог, сценаріїв,
+трасування, Use Case-рендера та [`DEFENSE.md`](DEFENSE.md).
