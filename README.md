@@ -26,3 +26,13 @@ Codewars. Лабораторна №1 описує модель даних, а �
 - [`laba 2/model/use-case-diagram.puml`](laba%202/model/use-case-diagram.puml) — джерело діаграми.
 - [`laba 2/model/use-case-diagram.svg`](laba%202/model/use-case-diagram.svg) — рендер.
 - [`laba 2/DEFENSE.md`](laba%202/DEFENSE.md) — точка входу для рев'ю.
+
+## Лабораторна 3
+
+Sequence-діаграма надсилання розв'язку знаходиться в папці
+[`laba 3`](laba%203):
+
+- [`laba 3/spec.md`](laba%203/spec.md) — специфікація і критерії.
+- [`laba 3/model/submit-solution-sequence.mmd`](laba%203/model/submit-solution-sequence.mmd) — джерело Mermaid.
+- [`laba 3/model/submit-solution-sequence.svg`](laba%203/model/submit-solution-sequence.svg) — рендер.
+- [`laba 3/DEFENSE.md`](laba%203/DEFENSE.md) — точка входу для рев'ю.
