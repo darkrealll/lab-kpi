@@ -23,6 +23,9 @@ sequenceDiagram
     UI-->>Learner: showStatus(pending)
 
     loop while Test Runner Service has not returned a result
+        Runner->>API: checkResultAvailability(attemptId)
+        API-->>Runner: resultStillPending(attemptId)
+
         opt learner refreshes status
             Learner->>UI: refreshStatus(attemptId)
             UI->>API: getAttemptStatus(attemptId)
