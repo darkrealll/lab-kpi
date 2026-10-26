@@ -1,0 +1,86 @@
+sequenceDiagram
+    autonumber
+    actor Learner
+    participant UI as Web UI
+    participant API as Submission API
+    participant User
+    participant Kata
+    participant Language
+    participant AttemptRepo as Attempt Repository
+    participant Attempt
+    participant Runner as Test Runner Service
+    participant RankService
+    participant Rank
+
+    Learner->>UI: submitSolution(kataId, languageId, sourceCode)
+    activate UI
+    UI->>API: submitSolution(userId, kataId, languageId, sourceCode)
+    activate API
+    API->>User: validateUser(userId)
+    activate User
+    User-->>API: user(valid)
+    deactivate User
+    API->>Kata: validatePublished(kataId)
+    activate Kata
+    Kata-->>API: kata(valid)
+    deactivate Kata
+    API->>Language: validateSupported(kataId, languageId)
+    activate Language
+    Language-->>API: language(valid)
+    deactivate Language
+
+    alt sourceCode is empty or language is unsupported
+        API-->>UI: rejectSubmission(validationErrors)
+        UI-->>Learner: showValidationErrors()
+    else valid submission
+        API->>AttemptRepo: createAttempt(userId, kataId, languageId, sourceCode, pending)
+        activate AttemptRepo
+        AttemptRepo->>Attempt: save(submittedAt, pending)
+        activate Attempt
+        Attempt-->>AttemptRepo: attemptId
+        deactivate Attempt
+        AttemptRepo-->>API: attempt(attemptId, pending)
+        deactivate AttemptRepo
+
+        par dispatch tests
+            API->>Runner: executeTests(attemptId, kataId, languageId, sourceCode)
+            activate Runner
+            Runner-->>API: accepted(attemptId)
+            deactivate Runner
+        and notify pending state
+            API-->>UI: submissionAccepted(attemptId, pending)
+            UI-->>Learner: showStatus(pending)
+        end
+
+        Runner-->>API: testResult(attemptId, passed)
+        API->>AttemptRepo: updateStatus(attemptId, passed)
+        activate AttemptRepo
+        AttemptRepo->>Attempt: setStatus(passed)
+        activate Attempt
+        Attempt-->>AttemptRepo: savedAttempt
+        deactivate Attempt
+        AttemptRepo-->>API: attempt(passed)
+        deactivate AttemptRepo
+
+        API->>RankService: getUpdatedRank(userId)
+        activate RankService
+        RankService->>User: getRank(userId)
+        activate User
+        User->>Rank: resolve(score)
+        activate Rank
+        Rank-->>User: rank
+        deactivate Rank
+        User-->>RankService: updatedRank
+        deactivate User
+        RankService-->>API: updatedRank
+        deactivate RankService
+
+        opt learner opens progress details
+            API-->>UI: progressDetails(updatedRank)
+            UI-->>Learner: showUpdatedRank(updatedRank)
+        end
+        API-->>UI: result(passed, updatedRank)
+        UI-->>Learner: showPassedResult()
+    end
+    deactivate API
+    deactivate UI

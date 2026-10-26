@@ -1,13 +1,17 @@
 # Лабораторна 3: sequence-діаграма Codewars
 
-Ця лабораторна деталізує UC-03 «Submit solution» з лабораторної №2 та показує
-асинхронне оцінювання через Test Runner Service.
+Ця лабораторна деталізує кожен обраний сценарій UC-03 «Submit solution» з
+лабораторної №2 та показує асинхронне оцінювання через Test Runner Service.
 
 - [`spec.md`](spec.md) — намір, учасники та критерії.
-- [`model/submit-solution-sequence.mmd`](model/submit-solution-sequence.mmd) —
-  декларативне Mermaid-джерело.
-- [`model/submit-solution-sequence.svg`](model/submit-solution-sequence.svg) —
-  рендер джерела.
+- [`model/sc-03-successful-submission.mmd`](model/sc-03-successful-submission.mmd) —
+  sequence-діаграма SC-03.
+- [`model/sc-03-successful-submission.svg`](model/sc-03-successful-submission.svg) —
+  рендер SC-03.
+- [`model/sc-04-pending-attempt.mmd`](model/sc-04-pending-attempt.mmd) —
+  sequence-діаграма SC-04.
+- [`model/sc-04-pending-attempt.svg`](model/sc-04-pending-attempt.svg) —
+  рендер SC-04.
 - [`audit/sequence-discrepancies.md`](audit/sequence-discrepancies.md) —
   аудит трьох розбіжностей.
 - [`adr/0003-asynchronous-attempt-sequence.md`](adr/0003-asynchronous-attempt-sequence.md) —

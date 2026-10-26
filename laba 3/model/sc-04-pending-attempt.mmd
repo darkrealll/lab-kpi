@@ -1,0 +1,61 @@
+sequenceDiagram
+    autonumber
+    actor Learner
+    participant UI as Web UI
+    participant API as Submission API
+    participant AttemptRepo as Attempt Repository
+    participant Attempt
+    participant Runner as Test Runner Service
+
+    Learner->>UI: viewSubmissionStatus(attemptId)
+    activate UI
+    UI->>API: getAttemptStatus(attemptId)
+    activate API
+    API->>AttemptRepo: findById(attemptId)
+    activate AttemptRepo
+    AttemptRepo->>Attempt: readStatus()
+    activate Attempt
+    Attempt-->>AttemptRepo: pending
+    deactivate Attempt
+    AttemptRepo-->>API: attempt(attemptId, pending)
+    deactivate AttemptRepo
+    API-->>UI: status(pending)
+    UI-->>Learner: showStatus(pending)
+
+    loop while Test Runner Service has not returned a result
+        opt learner refreshes status
+            Learner->>UI: refreshStatus(attemptId)
+            UI->>API: getAttemptStatus(attemptId)
+            API->>AttemptRepo: findById(attemptId)
+            activate AttemptRepo
+            AttemptRepo->>Attempt: readStatus()
+            activate Attempt
+            Attempt-->>AttemptRepo: pending
+            deactivate Attempt
+            AttemptRepo-->>API: sameAttempt(pending)
+            deactivate AttemptRepo
+            API-->>UI: status(pending)
+            UI-->>Learner: showStatus(pending)
+        end
+
+        alt duplicate submit request arrives
+            Learner->>UI: submitSolutionAgain(attemptId)
+            UI->>API: preventDuplicateAttempt(attemptId)
+            API->>AttemptRepo: findById(attemptId)
+            activate AttemptRepo
+            AttemptRepo->>Attempt: readStatus()
+            activate Attempt
+            Attempt-->>AttemptRepo: existingAttempt(pending)
+            deactivate Attempt
+            AttemptRepo-->>API: noNewAttemptCreated
+            deactivate AttemptRepo
+            API-->>UI: status(pending)
+            UI-->>Learner: keepPendingState()
+        else no duplicate request
+            API-->>UI: waitForNextPoll()
+            UI-->>Learner: keepStatus(pending)
+        end
+    end
+
+    deactivate API
+    deactivate UI
