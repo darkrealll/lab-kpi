@@ -36,3 +36,17 @@ Sequence-діаграма надсилання розв'язку знаходи�
 - [`laba 3/model/submit-solution-sequence.mmd`](laba%203/model/submit-solution-sequence.mmd) — джерело Mermaid.
 - [`laba 3/model/submit-solution-sequence.svg`](laba%203/model/submit-solution-sequence.svg) — рендер.
 - [`laba 3/DEFENSE.md`](laba%203/DEFENSE.md) — точка входу для рев'ю.
+
+## Лабораторна 4
+
+Activity-процес надсилання розв'язку знаходиться у папці
+[`laba 4`](laba%204):
+
+- [`laba 4/spec.md`](laba%204/spec.md) — процес, ролі та критерії.
+- [`laba 4/model/solution-submission.mmd`](laba%204/model/solution-submission.mmd) —
+  єдине Mermaid-джерело activity-моделі.
+- [`laba 4/model/solution-submission.svg`](laba%204/model/solution-submission.svg) —
+  рендер процесу.
+- [`laba 4/audit/process-discrepancies.md`](laba%204/audit/process-discrepancies.md) —
+  аудит повноти та топ-3 розбіжності.
+- [`laba 4/DEFENSE.md`](laba%204/DEFENSE.md) — точка входу для рев'ю.

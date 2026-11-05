@@ -1,0 +1,50 @@
+flowchart TD
+    start((Start)) --> submit
+
+    subgraph Learner
+        submit[Submit source code, kata and language]
+        viewPending[See pending status]
+        reopen[Reopen attempt status]
+        showResult[See final result]
+        showError[See validation error]
+    end
+
+    subgraph API[Submission API]
+        validate{User, published Kata, supported Language and non-empty code?}
+        create[Create one Attempt with status pending]
+        duplicate{Existing attemptId supplied?}
+        read[Read the same Attempt status]
+        refresh{Learner refreshes status?}
+        accept[Accept submission]
+        result{Runner result}
+        updatePassed[Update same Attempt to passed]
+        updateFailed[Update same Attempt to failed]
+    end
+
+    subgraph Runner[Test Runner Service]
+        execute[Execute tests for attemptId]
+        returnResult[Return passed or failed]
+    end
+
+    subgraph RankService[Rank Service]
+        rank[Get updated Rank]
+    end
+
+    submit --> validate
+    validate -- No --> showError --> finishError((End: rejected))
+    validate -- Yes --> create --> accept
+    accept --> fork{{Fork}}
+    fork --> notify[Notify UI: pending]
+    notify --> viewPending
+    fork --> execute
+    viewPending --> refresh
+    refresh -- Yes --> reopen --> duplicate
+    refresh -- No --> wait[Keep pending; await result]
+    duplicate -- Yes --> read --> wait
+    duplicate -- No --> wait
+    wait --> join
+    execute --> returnResult --> join{{Join}}
+    join --> result
+    result -- passed --> updatePassed --> rank --> showResult
+    result -- failed --> updateFailed --> showResult
+    showResult --> finish((End))
